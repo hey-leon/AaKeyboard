@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.example.leon.aakeyboard.AaKeyboardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/keyboard"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+
+    android:shadowRadius="0.0"
+    android:background="@color/PearlWhite"
+
+    android:keyBackground="@drawable/key_style"
+    android:keyTextColor="@color/DarkGrey"
+    android:keyPreviewOffset="50dp"
+    android:keyPreviewHeight="100dp"
+    android:keyPreviewLayout ="@layout/key_preview_layout"
+    />

@@ -1,0 +1,49 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="10%p"
+    android:horizontalGap="0dip"
+    android:verticalGap="0dip"
+    android:keyHeight="60dp"
+    >
+    <Row>
+        <Key android:codes="126" android:keyLabel="~" android:keyWidth="10%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="96" android:keyLabel="`" android:keyWidth="10%p"/>
+        <Key android:codes="124" android:keyLabel="|" android:keyWidth="10%p"/>
+        <Key android:codes="8729" android:keyLabel="\u2219" android:keyWidth="10%p"/>
+        <Key android:codes="8730" android:keyLabel="\u221a" android:keyWidth="10%p"/>
+        <Key android:codes="960" android:keyLabel="\u03c0" android:keyWidth="10%p"/>
+        <Key android:codes="247" android:keyLabel="\u00f7" android:keyWidth="10%p"/>
+        <Key android:codes="215" android:keyLabel="\u00d7" android:keyWidth="10%p"/>
+        <Key android:codes="182" android:keyLabel="\u00b6" android:keyWidth="10%p"/>
+        <Key android:codes="916" android:keyLabel="\u0394" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+    </Row>
+    <Row>
+        <Key android:codes="163" android:keyLabel="\u00a3" android:horizontalGap="5%p" android:keyWidth="10%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="162" android:keyLabel="\u00a2" android:keyWidth="10%p"/>
+        <Key android:codes="8364" android:keyLabel="\u20ac" android:keyWidth="10%p"/>
+        <Key android:codes="165" android:keyLabel="\u00a5" android:keyWidth="10%p"/>
+        <Key android:codes="94" android:keyLabel="^" android:keyWidth="10%p"/>
+        <Key android:codes="176" android:keyLabel="\u00b0" android:keyWidth="10%p"/>
+        <Key android:codes="61" android:keyLabel="=" android:keyWidth="10%p"/>
+        <Key android:codes="123" android:keyLabel="{" android:keyWidth="10%p"/>
+        <Key android:codes="125" android:keyLabel="}" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+
+    </Row>
+    <Row>
+        <Key android:codes="-3" android:keyLabel="ALT" android:keyWidth="15%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="92" android:keyLabel="\\" android:keyWidth="10%p"/>
+        <Key android:codes="169" android:keyLabel="\u00a9" android:keyWidth="10%p"/>
+        <Key android:codes="174" android:keyLabel="\u00ae" android:keyWidth="10%p"/>
+        <Key android:codes="8482" android:keyLabel="\u2122" android:keyWidth="10%p"/>
+        <Key android:codes="8453" android:keyLabel="\u2105" android:keyWidth="10%p"/>
+        <Key android:codes="91" android:keyLabel="[" android:keyWidth="10%p"/>
+        <Key android:codes="93" android:keyLabel="]" android:keyWidth="10%p"/>
+        <Key android:codes="-2" android:keyLabel="DEL" android:keyWidth="15%p" android:isRepeatable="true"/>
+    </Row>
+    <Row android:rowEdgeFlags="bottom">
+        <Key android:codes="-2" android:keyIcon="@drawable/key_alpha" android:keyWidth="12%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="95" android:keyLabel="_" android:keyWidth="13%p" />
+        <Key android:codes="32" android:keyIcon="@drawable/key_spacebar" android:keyWidth="50%p" android:isRepeatable="true"/>
+        <Key android:codes="8230" android:keyLabel="\u2026" android:keyWidth="13%p"/>
+        <Key android:codes="-1" android:keyIcon="@drawable/key_return" android:keyWidth="12%p" android:keyEdgeFlags="right"/>
+    </Row>
+</Keyboard>
