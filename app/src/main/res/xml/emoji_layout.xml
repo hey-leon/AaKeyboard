@@ -61,7 +61,7 @@
         <Key android:codes="-7" android:keyIcon="@drawable/key_alpha" android:keyWidth="12%p" android:keyEdgeFlags="left"/>
         <Key android:codes="46,44,8230" android:keyLabel=". ," android:keyWidth="13%p"/>
         <Key android:codes="32" android:keyIcon="@drawable/key_spacebar" android:keyWidth="50%p" android:isRepeatable="true"/>
-        <Key android:codes="-2" android:keyLabel="DEL" android:keyWidth="13%p" android:isRepeatable="true"/>
+        <Key android:codes="-5" android:keyLabel="DEL" android:keyWidth="13%p" android:isRepeatable="true"/>
         <Key android:codes="-1" android:keyIcon="@drawable/key_return" android:keyWidth="12%p" android:keyEdgeFlags="right"/>
     </Row>
 

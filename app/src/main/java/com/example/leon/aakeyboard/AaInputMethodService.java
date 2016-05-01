@@ -20,7 +20,7 @@ public class AaInputMethodService extends InputMethodService implements Keyboard
      */
     private AaKeyboardView aaKeyboardView;
 
-    private AlphaAaKeyboard alphaKeyboard;
+    private AaKeyboard alphaKeyboard;
     private AaKeyboard symbolKeyboard;
     private AaKeyboard altSymbolKeyboard;
     private AaKeyboard emojiKeyboard;
@@ -35,11 +35,6 @@ public class AaInputMethodService extends InputMethodService implements Keyboard
 
 
     /**
-     * This field is used to remeber which symbol to show.
-     */
-    private boolean whichSymbols;
-
-    /**
      * This Override of onCreateInputView() for the InputMethodService (IMS)
      * handles loading the AaKeyboards, and AakeyboardView and is called on
      * inbound intent or an IMS.
@@ -51,7 +46,7 @@ public class AaInputMethodService extends InputMethodService implements Keyboard
     public View onCreateInputView() {
         //INITIALISE VIEW AND KEYBOARDS
         aaKeyboardView = (AaKeyboardView) getLayoutInflater().inflate(R.layout.keyboard_layout, null);
-        alphaKeyboard = new AlphaAaKeyboard(this, R.xml.alpha_layout);
+        alphaKeyboard = new AaKeyboard(this, R.xml.alpha_layout);
         symbolKeyboard = new AaKeyboard(this, R.xml.symbol_layout);
         altSymbolKeyboard = new AaKeyboard(this, R.xml.alt_symbol_layout);
         emojiKeyboard = new AaKeyboard(this, R.xml.emoji_layout);
@@ -103,78 +98,74 @@ public class AaInputMethodService extends InputMethodService implements Keyboard
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ENTER));
                 break;
             case AaKeyboard.KEYCODE_BACKSPACE:
-                onKeyBackspace(ic);
+                    onKeyBackspace(ic);
                 break;
             case AaKeyboard.KEYCODE_ALT_SYMBOLS:
-                whichSymbols = !whichSymbols;
-                changeSymbols(whichSymbols);
+                changeSymbols();
                 break;
-            case AaKeyboard.KEYCODE_SHIFTED_CAPS:
-                if(alphaKeyboard.getWhichCaps() == AlphaAaKeyboard.SHIFTED_CAPS
-                        || alphaKeyboard.getWhichCaps() == AlphaAaKeyboard.STICKY_CAPS){
-                    alphaKeyboard.setWhichCaps(AlphaAaKeyboard.NOT_CAPS);
-                    aaKeyboardView.setShifted(false);
-                }else{
-                    alphaKeyboard.setWhichCaps(AlphaAaKeyboard.SHIFTED_CAPS);
-                    aaKeyboardView.setShifted(true);
+            case AaKeyboard.KEYCODE_SHIFT_CAPS:
+                if(aaKeyboardView.getCase() == AaKeyboardView.LOWERCASE){
+                    aaKeyboardView.shiftCaseToUpper();
+                }else if(aaKeyboardView.getCase() == AaKeyboardView.UPPERCASE){
+                    aaKeyboardView.shiftCaseToSticky();
+                }else if(aaKeyboardView.getCase() == AaKeyboardView.STICKYCASE){
+                    aaKeyboardView.shiftCaseToLower();
                 }
                 break;
-            case AaKeyboard.KEYCODE_STICKY_CAPS:
-                alphaKeyboard.setWhichCaps(AlphaAaKeyboard.STICKY_CAPS);
-                aaKeyboardView.setShifted(true);
-                break;
-            case AaKeyboard.KEYCODE_NOT_CAPS:
-                alphaKeyboard.setWhichCaps(AlphaAaKeyboard.NOT_CAPS);
-                aaKeyboardView.setShifted(false);
-                break;
             case AaKeyboard.KEYCODE_ALPHA:
-                alphaKeyboard.setWhichCaps(AlphaAaKeyboard.NOT_CAPS);
+                aaKeyboardView.shiftCaseToLower();
                 aaKeyboardView.setKeyboard(alphaKeyboard);
                 break;
             case AaKeyboard.KEYCODE_EMOJI:
                 aaKeyboardView.setKeyboard(emojiKeyboard);
                 break;
             case AaKeyboard.KEYCODE_SYMBOL:
-                whichSymbols = false;
                 aaKeyboardView.setKeyboard(symbolKeyboard);
                 break;
             default:
                 //HANDLES EITHER KEY TYPES THAT ARENT CONTROL KEY
-                onEmojiKey(primaryCode, ic);
-                onRegularKey(primaryCode, ic);
-
+                if(primaryCode < 0){
+                    onEmojiKey(primaryCode, ic);
+                }else{
+                    char code = (char) primaryCode;
+                    //IF UPPERCASE
+                    if(aaKeyboardView.isShifted()) {
+                        code = Character.toUpperCase(code);
+                    }
+                    //COMMIT CHARACTER
+                    ic.commitText(String.valueOf(code), 1);
+                }
                 //HANDLES SHIFT STATE IF ALPHA KEYBOARD
                 ReleaseShiftedCaps();
-
                 break;
         }
 
     }
 
+    // ******************GARBAGE******************
     @Override
     public void onText(CharSequence text) {
 
     }
-
     @Override
     public void swipeLeft() {
 
     }
-
     @Override
     public void swipeRight() {
 
     }
-
     @Override
     public void swipeDown() {
 
     }
-
     @Override
     public void swipeUp() {
 
     }
+    // *****************/GARBAGE******************
+
+
 
     /**
      * This method handles all regular primaryCodes (Characters & Symbols from the onKey method.
@@ -185,15 +176,13 @@ public class AaInputMethodService extends InputMethodService implements Keyboard
      * by leon pearce
      */
     private void onRegularKey(int primaryCode, InputConnection ic) {
-        if (primaryCode >= 0) {
-            char code = (char) primaryCode;
-            //IF UPPERCASE
-            if(aaKeyboardView.isShifted()) {
-                code = Character.toUpperCase(code);
-            }
-            //COMMIT CHARACTER
-            ic.commitText(String.valueOf(code), 1);
+        char code = (char) primaryCode;
+        //IF UPPERCASE
+        if(aaKeyboardView.isShifted()) {
+            code = Character.toUpperCase(code);
         }
+        //COMMIT CHARACTER
+        ic.commitText(String.valueOf(code), 1);
     }
 
     /**
@@ -205,9 +194,7 @@ public class AaInputMethodService extends InputMethodService implements Keyboard
      * by leon pearce
      */
     private void onEmojiKey(int primaryCode, InputConnection ic) {
-        if (primaryCode <= -100) {
             ic.commitText(String.valueOf(Character.toChars(aaEmojiCodes.getEmojiCode(primaryCode))), 1);
-        }
     }
 
     /**
@@ -234,9 +221,9 @@ public class AaInputMethodService extends InputMethodService implements Keyboard
      */
     private void ReleaseShiftedCaps() {
         if(aaKeyboardView.getKeyboard() == alphaKeyboard){
-            AlphaAaKeyboard currentKeyboard = alphaKeyboard;
-            if(currentKeyboard.getWhichCaps() == AlphaAaKeyboard.SHIFTED_CAPS){
-                aaKeyboardView.setShifted(false);
+            AaKeyboard currentKeyboard = alphaKeyboard;
+            if(aaKeyboardView.getCase() == AaKeyboardView.UPPERCASE){
+                aaKeyboardView.shiftCaseToLower();
             }
         }
     }
@@ -339,18 +326,16 @@ public class AaInputMethodService extends InputMethodService implements Keyboard
     }
 
     /**
-     * This method sets the keyboard to the correct symbols.
+     * This method alternates the keyboard symbols.
      *
-     * @param whichSymbols - the symbol state.
      * by leon pearce
      */
-    private void changeSymbols(boolean whichSymbols) {
-        if(whichSymbols){
-            aaKeyboardView.setKeyboard(symbolKeyboard);
-        }else{
+    private void changeSymbols() {
+        if(aaKeyboardView.getKeyboard() == symbolKeyboard){
             aaKeyboardView.setKeyboard(altSymbolKeyboard);
+        }else{
+            aaKeyboardView.setKeyboard(symbolKeyboard);
         }
     }
-
 
 }

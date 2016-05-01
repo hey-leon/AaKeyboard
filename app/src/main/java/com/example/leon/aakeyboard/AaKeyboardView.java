@@ -24,6 +24,15 @@ public class AaKeyboardView extends KeyboardView {
     private AaEmojiCodes aaEmojiCodes = new AaEmojiCodes();
 
 
+    /**
+     * This field is used to remember which lettercase to show.
+     */
+    private int whichCase = LOWERCASE;
+    public static final int LOWERCASE = 1;
+    public static final int UPPERCASE = 2;
+    public static final int STICKYCASE = 3;
+
+
     //SAME AS PARENT CONSTRUCTORS - SEE KEYBOARDVIEW
     public AaKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -55,19 +64,22 @@ public class AaKeyboardView extends KeyboardView {
 
         List<Keyboard.Key> keys = getKeyboard().getKeys();
         for(Keyboard.Key key: keys) {
-                int code = key.codes[0];
-                if(code <= -100){
+                int primaryCode = key.codes[0];
+                if(primaryCode <= -100){
                     painter.setTextSize(64);
                     painter.setColor(Color.BLACK);
-                    canvas.drawText(String.valueOf(Character.toChars(aaEmojiCodes.getEmojiCode(code))),
+                    canvas.drawText(String.valueOf(Character.toChars(aaEmojiCodes.getEmojiCode(primaryCode))),
                             key.x + (key.width/2), key.y + (key.height/2) + 25, painter);
                 }
-                if(code == -4){
+                if(primaryCode == AaKeyboard.KEYCODE_SHIFT_CAPS){
                     painter.setTextSize(42);
-                    if(getKeyboard().isShifted() == true){
-                        painter.setColor(getResources().getColor(R.color.Green));
-                    }else{
+                    if(whichCase == LOWERCASE){
                         painter.setColor(getResources().getColor(R.color.DarkGrey));
+                    }else if(whichCase == UPPERCASE){
+                        painter.setColor(getResources().getColor(R.color.Green));
+                    }else if(whichCase == STICKYCASE){
+                        painter.setColor(getResources().getColor(R.color.Green));
+                        painter.setFlags(Paint.UNDERLINE_TEXT_FLAG);
                     }
                     canvas.drawText("CAPS",
                             key.x + (key.width/2), key.y + (key.height/2) + 17, painter);
@@ -76,5 +88,38 @@ public class AaKeyboardView extends KeyboardView {
 
     }
 
+    /**
+     * This method is a helper to shift lettercase to lower.
+     *
+     * by leon pearce
+     */
+    public void shiftCaseToLower() {
+        whichCase = LOWERCASE;
+        setShifted(false);
+    }
+
+    /**
+     * This method is a helper to shift lettercase to upper.
+     *
+     * by leon pearce
+     */
+    public void shiftCaseToUpper() {
+        whichCase = UPPERCASE;
+        setShifted(true);
+    }
+
+    /**
+     * This method is a helper to shift lettercase to sticky.
+     *
+     * by leon pearce
+     */
+    public void shiftCaseToSticky() {
+        whichCase = STICKYCASE;
+        setShifted(true);
+    }
+
+    public int getCase() {
+        return whichCase;
+    }
 }
 

@@ -29,7 +29,7 @@
 
     </Row>
     <Row>
-        <Key android:codes="-3" android:keyLabel="ALT" android:keyWidth="15%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="-8" android:keyLabel="ALT" android:keyWidth="15%p" android:keyEdgeFlags="left"/>
         <Key android:codes="92" android:keyLabel="\\" android:keyWidth="10%p"/>
         <Key android:codes="169" android:keyLabel="\u00a9" android:keyWidth="10%p"/>
         <Key android:codes="174" android:keyLabel="\u00ae" android:keyWidth="10%p"/>
@@ -37,10 +37,10 @@
         <Key android:codes="8453" android:keyLabel="\u2105" android:keyWidth="10%p"/>
         <Key android:codes="91" android:keyLabel="[" android:keyWidth="10%p"/>
         <Key android:codes="93" android:keyLabel="]" android:keyWidth="10%p"/>
-        <Key android:codes="-2" android:keyLabel="DEL" android:keyWidth="15%p" android:isRepeatable="true"/>
+        <Key android:codes="-5" android:keyLabel="DEL" android:keyWidth="15%p" android:isRepeatable="true"/>
     </Row>
     <Row android:rowEdgeFlags="bottom">
-        <Key android:codes="-2" android:keyIcon="@drawable/key_alpha" android:keyWidth="12%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="-7" android:keyIcon="@drawable/key_alpha" android:keyWidth="12%p" android:keyEdgeFlags="left"/>
         <Key android:codes="95" android:keyLabel="_" android:keyWidth="13%p" />
         <Key android:codes="32" android:keyIcon="@drawable/key_spacebar" android:keyWidth="50%p" android:isRepeatable="true"/>
         <Key android:codes="8230" android:keyLabel="\u2026" android:keyWidth="13%p"/>
